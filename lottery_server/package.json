@@ -1,0 +1,49 @@
+{
+  "name": "bale.io-backend",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --compiler ttypescript --respawn src/index.ts",
+    "build": "ttsc",
+    "start": "node dist/src/index.js",
+    "lint": "eslint src/**/*.ts",
+    "format": "eslint --fix src/**/*.ts"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/node": "^18.7.6",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "cors": "^2.8.5",
+    "eslint": "^8.22.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "ttypescript": "^1.5.13",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@ryanforever/discord-logger": "^3.2.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "diacritics": "^1.3.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "firebase": "^9.17.2",
+    "firebase-admin": "^11.5.0",
+    "google-auth-library": "^8.5.1",
+    "http-status-codes": "^2.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.2",
+    "reflect-metadata": "^0.1.13",
+    "typescript-is": "^0.19.0",
+    "winston": "^3.8.1"
+  },
+  "description": "bale.io backend part",
+  "repository": "git@github.com:bale-io/bale.io-backend.git",
+  "author": "DUBOSCLARD LÉO <leo.dubosclard@epitech.eu>"
+}
