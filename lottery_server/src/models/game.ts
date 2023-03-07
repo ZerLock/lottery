@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { Grid, User } from './';
+import { Grid, User } from '.';
 
 export interface Game {
     readonly id: string;

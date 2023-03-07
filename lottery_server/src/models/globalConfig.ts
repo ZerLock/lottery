@@ -1,4 +1,4 @@
-import { Game } from './';
+import { Game } from '.';
 
 export interface GlobalConfig {
     games: Array<Game['id']>;
