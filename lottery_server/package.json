@@ -1,5 +1,5 @@
 {
-  "name": "bale.io-backend",
+  "name": "lottery_server",
   "version": "0.0.1",
   "main": "src/index.ts",
   "license": "MIT",
@@ -37,7 +37,7 @@
     "typescript-is": "^0.19.0",
     "winston": "^3.8.1"
   },
-  "description": "bale.io backend part",
-  "repository": "git@github.com:bale-io/bale.io-backend.git",
-  "author": "DUBOSCLARD LÉO <leo.dubosclard@epitech.eu>"
+  "description": "Server side of lottery project",
+  "repository": "git@github.com:ZerLock/lottery.git",
+  "author": "Léo Dubosclard <leo.dubosclard@epitech.eu>"
 }
