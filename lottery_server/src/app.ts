@@ -1,6 +1,6 @@
 import express from 'express';
-import admin from 'firebase-admin';
 import cors from 'cors';
+import { initDatabase } from './database';
 import logger from './core/logger';
 import { environment } from './config';
 import {
@@ -10,27 +10,26 @@ import {
     ErrorType,
 } from './core/apiError';
 import routes from './routes';
-import serviceAccount from '../res/lottery-server.json';
 
+// Catch uncaught exception
 process.on('uncaughtException', (e) => {
     logger.error(e);
 });
 
 // Initialize Firestore
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as any),
-});
-admin.firestore().settings({
-    ignoreUndefinedProperties: true,
-});
+initDatabase();
 
+// Create express app
 const app = express();
 
+// Setup request body
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: false }));
+
+// Enable CORS
 app.use(cors());
 
-// Routes
+// All routes
 app.use('/', routes);
 
 // Catch 404 and forward to error handler

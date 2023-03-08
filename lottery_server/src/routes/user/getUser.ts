@@ -1,23 +1,16 @@
 import express from 'express';
 import admin from 'firebase-admin';
 import db from '../../database';
-import { SuccessResponse } from '../../core/apiResponse';
 import asyncHandler from '../../helpers/asyncHandler';
-import { BadRequestError } from '../../core/apiError';
+import { SuccessResponse } from '../../core/apiResponse';
 
 const router = express.Router();
 
 router.get(
     '/',
     asyncHandler(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const userId = req.query.userId as string;
-
-        if (!userId) {
-            throw new BadRequestError(`No user id provided`);
-        }
-
         const user = await admin.firestore().runTransaction(async (tx) => {
-            const user = await db.getUser(tx, userId);
+            const user = await db.getUser(tx, res.locals.uid as string);
             return user;
         });
 

@@ -3,9 +3,20 @@ import * as parser from '../parsers';
 import { CONFIG, GLOBAL, USERS } from '../helpers/consts';
 import { GlobalConfig, User } from '../models';
 
+import serviceAccount from '../../res/lottery-server.json';
+
 import DocumentReference = admin.firestore.DocumentReference;
 import DocumentSnapshot = admin.firestore.DocumentSnapshot;
 import Transaction = admin.firestore.Transaction;
+
+export function initDatabase() {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount as any),
+  });
+  admin.firestore().settings({
+    ignoreUndefinedProperties: true,
+  });
+}
 
 const db = {
   // Getters
@@ -52,6 +63,11 @@ const db = {
   // Update
   updateGlobalConfig(tx: Transaction, data: Partial<GlobalConfig>): void {
     const ref: DocumentReference = admin.firestore().doc(`${GLOBAL}/${CONFIG}`);
+    tx.update(ref, data);
+  },
+
+  async updateUser(tx: Transaction, userId: User['uid'], data: Partial<User>): Promise<void> {
+    const ref: DocumentReference = admin.firestore().doc(`${USERS}/${userId}`);
     tx.update(ref, data);
   },
 
