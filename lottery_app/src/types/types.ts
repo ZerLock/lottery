@@ -1,19 +1,26 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface GlobalConfig {
-	id: number;
-	grids: Array<string>; // Array of games ids
+	games: Array<Game['id']>;
+	total_cash: number;
 }
 
 export interface Grid {
-	id: string;
+	readonly id: string;
+	readonly game_id: Game['id'];
+	readonly game_name: Game['name'];
 	numbers: Array<number>;
 }
 
 export interface Game {
-	grid: Grid;
-	players: Array<number>; // Array of players ids
-	total_amount: number;
-	is_available: boolean;
-	creation_date: number;
+	readonly id: string;
+	name: string;
+	grid: Array<number>;
+	users: Array<User['uid']>;
+	play_cash: number;
+	total_cash: number;
+	created_at: Timestamp;
+	played_at: Timestamp;
 }
 
 export interface User {
@@ -22,4 +29,7 @@ export interface User {
 	normalized_name: string;
 	avatar: string;
 	cash: number;
+	number_of_grids: number;
+	current_games: Array<Grid>;
+	old_games: Array<Grid>;
 }

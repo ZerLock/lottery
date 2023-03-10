@@ -1,5 +1,6 @@
-import api from './api';
-import type { User as UserType } from '../types/types';
+import axios, { AxiosInstance } from 'axios';
+import type { User as UserType, Game as GameType, Grid } from '../types/types';
+import { SERVER_URL } from 'config/constants';
 
 class User {
 	public account: UserType | undefined;
@@ -8,9 +9,17 @@ class User {
 
 	public deviceInfos: string | undefined;
 
+	public api: AxiosInstance;
+
 	constructor(account: UserType | undefined, idToken: string | undefined) {
 		this.account = account;
 		this.idToken = idToken;
+		this.api = axios.create({
+			baseURL: SERVER_URL,
+			headers: {
+				Authorization: `Bearer ${idToken}`,
+			},
+		});
 	}
 
 	public getAccount = (): UserType => {
@@ -34,14 +43,28 @@ class User {
 		return false;
 	}
 
-	public async getAvailableGames(): Promise<any> {
-		// TODO: Call using axios the backend to get all available games when backend is UP
-		const res = await api({
-			url: '/game/getAvailableGames',
-			method: 'GET',
-			data: {}, // Body
+	public async getGames(): Promise<Array<GameType>> {
+		const res = await this.api.get('/game/getAll');
+		return res.data.data.games as Array<GameType>; // Return
+	}
+
+	public async playNewGrid(numbers: Array<number>, gameId: GameType['id']): Promise<void> {
+		const res = await this.api.post(`/game/new?gameId=${gameId}`, {
+			numbers,
 		});
-		return res.data; // Return
+		if (this.account) {
+			this.account = res.data.data;
+		}
+	}
+
+	public async getUserGrids(): Promise<Array<Grid>> {
+		const res = await this.api.get('/user/getGrids');
+		return res.data;
+	}
+
+	public async topUpAccount(amount: number): Promise<void> {
+		const res = await this.api.post('/user/refillAccount', { amount });
+		this.account = res.data.data;
 	}
 }
 

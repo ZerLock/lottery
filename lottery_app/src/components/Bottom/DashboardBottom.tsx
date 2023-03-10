@@ -31,9 +31,11 @@ const DashboardBar = ({ clickAction, selectedTab }: DashboardBarProps): JSX.Elem
 					{BottomBarProps.map((value, index) => (
 						<Button
 							key={index}
-							bgColor={selectedTab === index ? 'gray' : 'none'}
+							// bgColor={selectedTab === index ? 'gray' : 'none'}
+							bgColor="transparent"
 							variant="ghost"
-							_focus={{ background: 'none' }}
+							_focus={{ background: 'transparent' }}
+							textDecoration={selectedTab === index ? 'underline' : 'none'}
 							onClick={() => clickAction(index)}
 						>
 							<Flex key={index} direction="column" textAlign="center" align="center">

@@ -1,86 +1,55 @@
 import { useEffect, useState } from 'react';
-import { Box, VStack } from '@chakra-ui/react';
+import { Box, useDisclosure, VStack } from '@chakra-ui/react';
+import { Game as GameType } from 'types/types';
 
 import Game from './Game';
 
 import { useUserContext } from 'contexts/user';
+import NewGridModal from 'components/Modals/NewGridModal';
 
 const GamesView = (): JSX.Element => {
 	const user = useUserContext();
-	// TODO: Update any type to Game type when backend is UP
-	const [games, setGames] = useState<Array<any>>([]);
+
+	// Modal
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const [games, setGames] = useState<Array<GameType>>([]);
+	const [selectedGame, setSelectedGame] = useState<GameType | undefined>(undefined);
 
 	useEffect(() => {
 		(async () => {
 			try {
-				const res = await user.user.getAvailableGames();
+				const res = await user.user.getGames();
 				setGames(res);
 			} catch (e: any) {
 				console.error(e);
 			}
-			setGames([
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Name of component',
-					cash: 679089798,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Loto Frane',
-					cash: 899000981,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Name of component',
-					cash: 679089798,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Loto Frane',
-					cash: 899000981,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Name of component',
-					cash: 679089798,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Loto Frane',
-					cash: 899000981,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Name of component',
-					cash: 679089798,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Loto Frane',
-					cash: 899000981,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Name of component',
-					cash: 679089798,
-				},
-				{
-					id: 'uuid-890j-Kjl7-JKL9-JKld',
-					name: 'Loto Frane',
-					cash: 899000981,
-				},
-			]);
 		})();
 	}, []);
+
+	const fillNewGrid = (game: GameType): void => {
+		setSelectedGame(game);
+		onOpen();
+	};
+
+	const playGrid = async (numbers: Array<number>): Promise<void> => {
+		if (!selectedGame) {
+			return;
+		}
+
+		await user.user.playNewGrid(numbers, selectedGame.id);
+		setSelectedGame(undefined);
+	};
 
 	return (
 		<>
 			<VStack spacing="6px" pb="100px">
 				{games.map((value, index) => (
 					<Box key={index}>
-						<Game clickAction={() => {}} id={value.id} name={value.name} cash={value.cash} date={new Date()} />
+						<Game clickAction={() => fillNewGrid(value)} game={value} />
 					</Box>
 				))}
+				<NewGridModal isOpen={isOpen} onClose={onClose} clickAction={playGrid} game={selectedGame} />
 			</VStack>
 		</>
 	);

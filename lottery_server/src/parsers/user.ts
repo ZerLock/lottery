@@ -16,6 +16,9 @@ export function parseUser(snap: DocumentSnapshot): User {
     normalized_name: 'unknown',
     avatar: 'https://bit.ly/broken-link',
     cash: 0,
+    number_of_grids: 0,
+    current_games: [],
+    old_games: [],
   };
 
   return _.defaults(snap.data(), userDefault);

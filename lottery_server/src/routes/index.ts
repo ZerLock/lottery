@@ -1,16 +1,27 @@
 import express from 'express';
+
+// Middlewares
 import authMiddleware from '../middlewares/auth';
+
+// Controllers
 import auth from './auth';
 import getUser from './user/getUser';
 import deleteUser from './user/deleteUser';
 import updateUser from './user/updateUser';
+import getUserGrids from './user/getGrids';
+import refillAccount from './user/refillAccount';
+import getGames from './game/getAll';
+import newGame from './game/newGame';
+
+// Routes path
+import { authRoute, gameRoute, userRoute } from '../helpers/consts';
 
 const router = express.Router();
 
 /**
  * Authentication
  */
-router.use('/auth', auth);
+router.use(authRoute, auth);
 
 /**
  * Authentication middleware
@@ -20,13 +31,16 @@ router.use(authMiddleware);
 /**
  * User
  */
-router.use('/user', getUser);
-router.use('/user', deleteUser);
-router.use('/user', updateUser);
+router.use(userRoute, getUser);
+router.use(userRoute, deleteUser);
+router.use(userRoute, updateUser);
+router.use(userRoute, getUserGrids);
+router.use(userRoute, refillAccount);
 
 /**
  * Game
  */
-// router.use('/game', getGames)
+router.use(gameRoute, getGames);
+router.use(gameRoute, newGame);
 
 export default router;

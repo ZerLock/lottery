@@ -1,4 +1,8 @@
+import { Game } from './';
+
 export interface Grid {
     readonly id: string;
-    numbers: Array<number>; // max 5
+    readonly game_id: Game['id'];
+    readonly game_name: Game['name'];
+    numbers: Array<number>;
 }

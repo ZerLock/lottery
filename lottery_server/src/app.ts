@@ -1,3 +1,7 @@
+// Environment variables
+require('dotenv').config();
+
+// Import default dependencies
 import express from 'express';
 import cors from 'cors';
 import { initDatabase } from './database';

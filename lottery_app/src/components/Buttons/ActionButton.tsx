@@ -5,17 +5,20 @@ type ActionButtonProps = {
 	content: string;
 	p: string;
 	px: string;
+	bg: string;
+	opac?: string;
+	radius?: string;
 };
 
-const ActionButton = ({ clickAction, content, p, px }: ActionButtonProps) => (
+const ActionButton = ({ clickAction, content, p, px, bg, opac, radius }: ActionButtonProps) => (
 	<>
 		<Button
 			w="max-content"
-			bg="#F7783D"
+			bg={bg}
+			borderRadius={radius ? radius : '10px'}
+			opacity={opac ? opac : '100%'}
 			variant="solid"
-			_focus={{ background: '#F7783D' }}
-			_active={{ background: '#F7783D' }}
-			_after={{ background: '#F7783D' }}
+			_focus={{ background: bg }}
 			p={p}
 			px={px}
 			onClick={clickAction}

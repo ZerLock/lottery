@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Text, Image, VStack, Box, Flex, useToast } from '@chakra-ui/react';
 
 import LoginButton from 'components/Buttons/LoginButton';
@@ -13,6 +13,15 @@ const LoginView = (): JSX.Element => {
 	const [isLoadingWithGoogle, setIsLoadingWithGoogle] = useState<boolean>(false);
 
 	const toast = useToast();
+
+	useEffect(() => {
+		(async () => {
+			if (auth.isConnected()) {
+				// const login = await auth.getConnectedUser();
+				// user.setUser(login.user);
+			}
+		})();
+	}, [auth]);
 
 	const loginWithGoogle = async (): Promise<void> => {
 		setIsLoadingWithGoogle(true);

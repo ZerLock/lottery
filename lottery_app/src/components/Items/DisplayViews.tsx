@@ -1,5 +1,6 @@
 import GamesView from './GamesView';
 import ProfileView from './ProfileView';
+import ResultsView from './ResultsView';
 
 type DisplayViewsProps = {
 	index: number;
@@ -12,7 +13,7 @@ const DisplayViews = ({ index }: DisplayViewsProps): JSX.Element => {
 	}
 	if (index === 1) {
 		// Results
-		return <></>;
+		return <ResultsView />;
 	}
 	// Profile
 	return <ProfileView />;

@@ -5,3 +5,11 @@ export interface LoginParams {
 export interface UpdateUserParams {
     name?: string;
 }
+
+export interface NewGridParams {
+    numbers: Array<number>;
+}
+
+export interface RefillAccountParams {
+    amount: number;
+}

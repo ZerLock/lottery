@@ -1,7 +1,7 @@
 import admin from 'firebase-admin';
 import * as parser from '../parsers';
-import { CONFIG, GLOBAL, USERS } from '../helpers/consts';
-import { GlobalConfig, User } from '../models';
+import { CONFIG, GAMES, GLOBAL, USERS } from '../helpers/consts';
+import { GlobalConfig, User, Game } from '../models';
 
 import serviceAccount from '../../res/lottery-server.json';
 
@@ -60,14 +60,31 @@ const db = {
     return snap.exists ? snap.data() as User : null;
   },
 
+  async getGame(tx: Transaction, gameId: Game['id']): Promise<Game> {
+    const ref = await admin.firestore().doc(`${GAMES}/${gameId}`);
+    const snap = await tx.get(ref);
+    return parser.parseGame(snap);
+  },
+
+  async getGames(tx: Transaction): Promise<Array<Game>> {
+    const ref = await admin.firestore().collection(`${GAMES}`);
+    const snap = await tx.get(ref);
+    return parser.parseGames(snap);
+  },
+
   // Update
   updateGlobalConfig(tx: Transaction, data: Partial<GlobalConfig>): void {
     const ref: DocumentReference = admin.firestore().doc(`${GLOBAL}/${CONFIG}`);
     tx.update(ref, data);
   },
 
-  async updateUser(tx: Transaction, userId: User['uid'], data: Partial<User>): Promise<void> {
+  updateUser(tx: Transaction, userId: User['uid'], data: Partial<User>): void {
     const ref: DocumentReference = admin.firestore().doc(`${USERS}/${userId}`);
+    tx.update(ref, data);
+  },
+
+  updateGame(tx: Transaction, gameId: Game['id'], data: Partial<Game>): void {
+    const ref = admin.firestore().doc(`${GAMES}/${gameId}`);
     tx.update(ref, data);
   },
 
@@ -75,6 +92,13 @@ const db = {
   createUser(tx: Transaction, data: any): void {
     const ref = admin.firestore().doc(`${USERS}/${data.user.uid}`);
     tx.set(ref, data.user);
+  },
+
+  createGame(tx: Transaction, data: Partial<Game>): Game['id'] {
+    const ref = admin.firestore().collection(`${GAMES}`).doc();
+    tx.create(ref, data);
+
+    return ref.id;
   },
 
   // Setters
