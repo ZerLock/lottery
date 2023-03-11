@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Box, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, VStack, Text, useDisclosure, useToast } from '@chakra-ui/react';
+import { FaUmbrellaBeach } from 'react-icons/fa';
 import { Game as GameType } from 'types/types';
 
 import Game from './Game';
@@ -9,6 +10,7 @@ import NewGridModal from 'components/Modals/NewGridModal';
 
 const GamesView = (): JSX.Element => {
 	const user = useUserContext();
+	const toast = useToast();
 
 	// Modal
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,18 +39,43 @@ const GamesView = (): JSX.Element => {
 			return;
 		}
 
-		await user.user.playNewGrid(numbers, selectedGame.id);
+		try {
+			await user.user.playNewGrid(numbers, selectedGame.id);
+			toast({
+				title: `You just play on game '${selectedGame.name}'`,
+				description: 'May the luck be with you',
+				status: 'success',
+				position: 'top',
+				isClosable: true,
+				duration: 2000,
+			});
+		} catch (e: any) {
+			throw new Error(e);
+		}
 		setSelectedGame(undefined);
 	};
 
 	return (
 		<>
 			<VStack spacing="6px" pb="100px">
-				{games.map((value, index) => (
-					<Box key={index}>
-						<Game clickAction={() => fillNewGrid(value)} game={value} />
-					</Box>
-				))}
+				{games.length > 0 ? (
+					<>
+						{games.map((value, index) => (
+							<Box key={index}>
+								<Game clickAction={() => fillNewGrid(value)} game={value} />
+							</Box>
+						))}
+					</>
+				) : (
+					<>
+						<VStack mt="40%">
+							<FaUmbrellaBeach size="50px" />
+							<Text fontSize="18px" textAlign="center">
+								Nothing new today, take a rest!
+							</Text>
+						</VStack>
+					</>
+				)}
 				<NewGridModal isOpen={isOpen} onClose={onClose} clickAction={playGrid} game={selectedGame} />
 			</VStack>
 		</>

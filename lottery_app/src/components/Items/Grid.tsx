@@ -11,11 +11,11 @@ const Grid = ({ onNumbersChange }: GridProps): JSX.Element => {
 	// Number that the user can choose
 	const availableNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
+	const [numbers, setNumbers] = useState<Array<number>>([]);
+
 	// Force re-render of component
 	const [, updateState] = useState<any>();
-	const forceUpdate = useCallback(() => updateState({}), []);
-
-	const [numbers, setNumbers] = useState<Array<number>>([]);
+	const forceUpdate = useCallback(() => updateState({}), [numbers]);
 
 	const chooseRandom = (): void => {
 		// Reset numbers
@@ -47,14 +47,16 @@ const Grid = ({ onNumbersChange }: GridProps): JSX.Element => {
 	};
 
 	const selectNumber = (value: number): void => {
-		if (_.find(numbers, (elem) => elem === value)) {
-			setNumbers(_.pull(numbers, value));
+		let tmp = numbers;
+		if (_.find(tmp, (elem) => elem === value)) {
+			_.pull(tmp, value);
 		} else {
-			if (numbers.length < 5) {
-				setNumbers(_.concat(numbers, value));
+			if (tmp.length < 5) {
+				tmp = tmp.concat(value);
 			}
 		}
-		onNumbersChange(numbers);
+		setNumbers(tmp);
+		onNumbersChange(tmp);
 		forceUpdate();
 	};
 

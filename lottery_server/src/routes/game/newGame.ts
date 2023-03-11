@@ -4,7 +4,7 @@ import types from 'typescript-is';
 import _ from 'lodash';
 import db from '../../database';
 import asyncHandler from '../../helpers/asyncHandler';
-import { NewGridParams, Grid } from '../../models';
+import { NewGridParams, Grid, Game } from '../../models';
 import { SuccessResponse } from '../../core/apiResponse';
 import { BadRequestError, InternalError } from '../../core/apiError';
 
@@ -25,7 +25,7 @@ router.post(
             throw new BadRequestError(`game id not provided`);
         }
 
-        const user = await admin.firestore().runTransaction(async (tx) => {
+        await admin.firestore().runTransaction(async (tx) => {
             const [user, game] = await Promise.all([
                 db.getUser(tx, userId),
                 db.getGame(tx, gameId),
@@ -43,28 +43,41 @@ router.post(
                 throw new InternalError(`Invalid numbers`);
             }
 
+            // Check value of numbers (min: 0 and max: 20)
+            for (const num of params.numbers) {
+                if (num > 20 || num < 0) {
+                    throw new InternalError(`Invalid number: ${num}`);
+                }
+            }
+
+            const partialGame: Partial<Game> = {
+                id: game.id,
+                name: game.name,
+                grid: game.grid,
+                total_cash: game.total_cash,
+                played_at: game.played_at,
+            };
+
             // Create new grid
             const newGrid: Grid = {
                 id: (user.number_of_grids++).toString(),
-                game_id: gameId,
-                game_name: game.name,
+                game: partialGame,
+                claimed_cash: undefined,
                 numbers: params.numbers,
             };
 
             user.current_games.push(newGrid); // Add new grid
 
             // Add user in game users
-            if (!_.find(game.users, user.uid)) {
+            if (!game.users.includes(user.uid)) {
                 game.users.push(user.uid);
                 db.updateGame(tx, game.id, game);
             }
 
             db.updateUser(tx, user.uid, user);
-
-            return user;
         });
 
-        new SuccessResponse('New grid created', user).send(res);
+        new SuccessResponse('New grid created', {}).send(res);
     })
 );
 

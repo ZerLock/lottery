@@ -15,7 +15,7 @@ router.get(
             return (await db.getGames(tx));
         });
 
-        new SuccessResponse('Current games', { games }).send(res);
+        new SuccessResponse('Current games', games).send(res);
     })
 );
 

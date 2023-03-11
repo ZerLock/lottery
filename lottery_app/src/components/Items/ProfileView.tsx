@@ -1,38 +1,24 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { Flex, Box, VStack, Text, useToast } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import { Flex, Box, VStack, Text } from '@chakra-ui/react';
 
-import ProfileCard from './ProfileCard';
-import ActionButton from 'components/Buttons/ActionButton';
+import type { User as UserType } from 'types/types';
 
 import { useUserContext } from 'contexts/user';
 import { useAuthContext } from 'contexts/auth';
 
-import type { User as UserType } from 'types/types';
+import ProfileCard from './ProfileCard';
+import ActionButton from 'components/Buttons/ActionButton';
 
 const ProfileView = (): JSX.Element => {
 	const user = useUserContext();
 	const auth = useAuthContext();
+	const toast = useToast();
+
+	// Force re-render components
 	const [, updateState] = useState<any>();
 	const forceUpdate = useCallback(() => updateState({}), []);
-	const [profile, setProfile] = useState<UserType>({
-		uid: 'unknown',
-		name: 'Unknown',
-		normalized_name: 'https://bit.ly/broken-link',
-		avatar: 'Unknown',
-		cash: 0,
-		number_of_grids: 0,
-		current_games: [],
-		old_games: [],
-	});
 	const history = useHistory();
-
-	useEffect(() => {
-		(async () => {
-			// Get user profile
-			setProfile(user.user.getAccount());
-		})();
-	}, [user, profile]);
 
 	const logout = async () => {
 		// Clear datas
@@ -47,7 +33,15 @@ const ProfileView = (): JSX.Element => {
 
 	const topUp = async (): Promise<void> => {
 		await user.user.topUpAccount(100);
-		forceUpdate();
+		setTimeout(forceUpdate, 500);
+		toast({
+			title: 'Top up account success!',
+			description: 'Go bet!',
+			status: 'success',
+			position: 'top',
+			isClosable: true,
+			duration: 2000,
+		});
 	};
 
 	return (
@@ -55,10 +49,10 @@ const ProfileView = (): JSX.Element => {
 			<Box w="full" h="full">
 				<Flex h="full" pb="30%" direction="column" justify="space-between" align="center">
 					<VStack w="full">
-						<ProfileCard profile={profile} />
+						<ProfileCard profile={user.user.account as UserType} />
 						<ActionButton
 							clickAction={topUp}
-							content="To up your account (€100)"
+							content="Top up your account (€100)"
 							p="20px"
 							px=""
 							bg="#026E47"
@@ -67,7 +61,7 @@ const ProfileView = (): JSX.Element => {
 					</VStack>
 					<VStack>
 						<Text fontSize="14px" opacity="60%">
-							user id: {profile.uid}
+							user id: {user.user.account?.uid}
 						</Text>
 						<ActionButton clickAction={logout} content="Logout" p="20px" px="50px" bg="#F7783D" />
 					</VStack>

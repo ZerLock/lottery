@@ -28,13 +28,12 @@ const Game = ({ clickAction, game }: GameProps): JSX.Element => (
 					<Text fontSize="16px" opacity="60%">
 						{game.name}
 					</Text>
-					<Text fontSize="24px">€{game.total_cash * 0.9}</Text>
+					<Text fontSize="24px">€{game.total_cash}</Text>
 				</VStack>
 				<ActionButton clickAction={clickAction} content="Play" p="10px" px="20px" bg="#F7783D" />
 			</Flex>
 			<Flex w="100%" px="20px" wrap="wrap" justify="left" gap="7px">
 				<Badge colorScheme="cyan" p="3px" px="15px" alignItems="center">
-					{/* <Text>{game.played_at.toDate().toLocaleString()}</Text> */}
 					<Text>November 14</Text>
 				</Badge>
 				<Badge colorScheme="cyan" p="3px" px="15px" alignItems="center">

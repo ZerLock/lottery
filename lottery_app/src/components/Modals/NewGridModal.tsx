@@ -9,8 +9,10 @@ import {
 	HStack,
 	VStack,
 	Text,
+	useToast,
 } from '@chakra-ui/react';
 import { GiMoneyStack } from 'react-icons/gi';
+import _ from 'lodash';
 import { Game as GameType } from 'types/types';
 
 import { useUserContext } from 'contexts/user';
@@ -19,6 +21,7 @@ import ActionButton from 'components/Buttons/ActionButton';
 import CloseModalButton from 'components/Buttons/CloseModalButton';
 import DateInfos from './DateInfos';
 import Grid from 'components/Items/Grid';
+import CurrentCash from './CurrentCash';
 
 type NewGridModalProps = {
 	isOpen: boolean;
@@ -30,6 +33,7 @@ type NewGridModalProps = {
 const NewGridModal = ({ isOpen, onClose, clickAction, game }: NewGridModalProps): JSX.Element => {
 	const user = useUserContext();
 	const [numbers, setNumbers] = useState<Array<number>>([]);
+	const toast = useToast();
 
 	if (!game) return <></>;
 
@@ -38,6 +42,28 @@ const NewGridModal = ({ isOpen, onClose, clickAction, game }: NewGridModalProps)
 	};
 
 	const closeModal = (): void => {
+		let hasError = false;
+
+		if (numbers.length !== 5 || _.uniq(numbers).length !== 5) {
+			hasError = true;
+		}
+		for (const num of numbers) {
+			if (num > 20 || num < 0) {
+				hasError = true;
+			}
+		}
+
+		if (hasError) {
+			toast({
+				title: 'An error occured',
+				description: 'Are you sure you filled in the grid correctly?',
+				status: 'error',
+				position: 'top',
+				isClosable: true,
+				duration: 3000,
+			});
+			return;
+		}
 		clickAction(numbers);
 		onClose();
 	};
@@ -68,6 +94,7 @@ const NewGridModal = ({ isOpen, onClose, clickAction, game }: NewGridModalProps)
 									Bet amount: <b>€{game.play_cash}</b>
 								</Text>
 							</HStack>
+							<CurrentCash />
 						</VStack>
 					</ModalBody>
 					<ModalFooter w="full" minH="80px" pos="absolute" bottom="1.5%" justifyContent="center">

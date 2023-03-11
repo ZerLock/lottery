@@ -18,6 +18,7 @@ const ActionButton = ({ clickAction, content, p, px, bg, opac, radius }: ActionB
 			borderRadius={radius ? radius : '10px'}
 			opacity={opac ? opac : '100%'}
 			variant="solid"
+			_active={{ background: bg }}
 			_focus={{ background: bg }}
 			p={p}
 			px={px}

@@ -117,6 +117,11 @@ const db = {
     const ref: DocumentReference = admin.firestore().doc(`${USERS}/${userId}`);
     await tx.delete(ref);
   },
+
+  async deleteGame(tx: Transaction, gameId: Game['id']): Promise<void> {
+    const ref = admin.firestore().doc(`${GAMES}/${gameId}`);
+    await tx.delete(ref);
+  },
 };
 
 export default db;

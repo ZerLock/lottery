@@ -68,24 +68,12 @@ class Auth {
 	public loginWithGoogle = async (): Promise<AuthReturnType> => {
 		await signInWithPopup(this.auth, this.provider).then(this.handleSuccess);
 
-		const user = new User(this.connectedUser, this.connectedToken);
+		const user = new User(this.connectedUser?.uid, this.connectedToken);
 		return { user: user, idToken: user.idToken, message: 'Successful login' };
 	};
 
 	public getConnectedUser = async (): Promise<AuthReturnType> => {
-		const user = new User(
-			{
-				uid: '',
-				name: '',
-				normalized_name: '',
-				cash: 0,
-				avatar: '',
-				number_of_grids: 0,
-				current_games: [],
-				old_games: [],
-			},
-			'',
-		);
+		const user = new User(undefined, '');
 		return { user: user, idToken: '', message: 'tbd' };
 	};
 

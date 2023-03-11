@@ -2,16 +2,18 @@ import admin from 'firebase-admin';
 import db, { initDatabase } from "../database";
 import { Game } from '../models';
 
-export const newGameTask = async (): Promise<boolean> => {
+export const newGameTask = async (): Promise<void> => {
+    console.log('Started creating new game');
+
     // Connect to db
     initDatabase();
 
     // create game
     const newGame: Partial<Game> = {
         name: 'Test game',
-        grid: [0, 1, 3, 4, 5],
+        grid: [10, 20, 13, 8, 1],
         users: [],
-        total_cash: 0,
+        total_cash: 19779,
         created_at: admin.firestore.Timestamp.now(),
         played_at: admin.firestore.Timestamp.now(),
     };
@@ -22,7 +24,8 @@ export const newGameTask = async (): Promise<boolean> => {
     });
 
     console.log('Game created');
-
-    // Everything is good
-    return true;
 }
+
+(async () => {
+    await newGameTask();
+});

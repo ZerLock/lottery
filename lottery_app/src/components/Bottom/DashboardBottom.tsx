@@ -31,7 +31,6 @@ const DashboardBar = ({ clickAction, selectedTab }: DashboardBarProps): JSX.Elem
 					{BottomBarProps.map((value, index) => (
 						<Button
 							key={index}
-							// bgColor={selectedTab === index ? 'gray' : 'none'}
 							bgColor="transparent"
 							variant="ghost"
 							_focus={{ background: 'transparent' }}

@@ -7,8 +7,8 @@ export interface GlobalConfig {
 
 export interface Grid {
 	readonly id: string;
-	readonly game_id: Game['id'];
-	readonly game_name: Game['name'];
+	readonly game: Partial<Game>;
+	claimed_cash: number | undefined;
 	numbers: Array<number>;
 }
 

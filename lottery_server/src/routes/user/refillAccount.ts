@@ -18,16 +18,15 @@ router.post(
         }
         const params = types.assertType<RefillAccountParams>(req.body);
 
-        const user = await admin.firestore().runTransaction(async (tx) => {
+        await admin.firestore().runTransaction(async (tx) => {
             const user = await db.getUser(tx, res.locals.uid);
 
             user.cash += params.amount;
 
             db.updateUser(tx, user.uid, { cash: user.cash });
-            return user;
         });
 
-        new SuccessResponse(`Account refilled`, user).send(res);
+        new SuccessResponse(`Account refilled`, {}).send(res);
     })
 );
 
