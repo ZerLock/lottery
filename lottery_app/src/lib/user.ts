@@ -73,6 +73,10 @@ class User {
 		const res = await this.api.post('/user/refillAccount', { amount });
 		this.account = res.data.data;
 	}
+
+	public async claimGrid(gridId: string): Promise<void> {
+		await this.api.post(`/game/claim?gridId=${gridId}`);
+	}
 }
 
 export default User;

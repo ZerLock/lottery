@@ -10,7 +10,23 @@ const ResultsView = (): JSX.Element => {
 	const user = useUserContext();
 
 	const getUserGrids = (): Array<any> =>
-		_.reverse(_.concat(user.user.account?.old_games, user.user.account?.current_games));
+		_.reverse(
+			_.concat(
+				user.user.account?.old_games,
+				_.concat(
+					_.filter(
+						user.user.account?.current_games,
+						(value) =>
+							value.claimed_cash !== null || user.user.games.filter((game) => game.id === value.game.id).length !== 0,
+					),
+					_.filter(
+						user.user.account?.current_games,
+						(value) =>
+							value.claimed_cash === null && user.user.games.filter((game) => game.id === value.game.id).length === 0,
+					),
+				),
+			),
+		);
 
 	return (
 		<>

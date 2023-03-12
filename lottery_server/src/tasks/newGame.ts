@@ -10,9 +10,10 @@ export const newGameTask = async (): Promise<void> => {
 
     // create game
     const newGame: Partial<Game> = {
-        name: 'Test game',
+        name: 'Loto France',
         grid: [10, 20, 13, 8, 1],
         users: [],
+        play_cash: 10,
         total_cash: 19779,
         created_at: admin.firestore.Timestamp.now(),
         played_at: admin.firestore.Timestamp.now(),
@@ -23,9 +24,11 @@ export const newGameTask = async (): Promise<void> => {
         db.createGame(tx, newGame);
     });
 
-    console.log('Game created');
+    console.log('New game created');
 }
 
-(async () => {
+async function main() {
     await newGameTask();
-});
+}
+
+main();

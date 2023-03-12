@@ -1,12 +1,11 @@
 import admin from 'firebase-admin';
 import * as parser from '../parsers';
-import { CONFIG, GAMES, GLOBAL, USERS } from '../helpers/consts';
-import { GlobalConfig, User, Game } from '../models';
+import { GAMES, USERS } from '../helpers/consts';
+import { User, Game } from '../models';
 
 import serviceAccount from '../../res/lottery-server.json';
 
 import DocumentReference = admin.firestore.DocumentReference;
-import DocumentSnapshot = admin.firestore.DocumentSnapshot;
 import Transaction = admin.firestore.Transaction;
 
 export function initDatabase() {
@@ -25,11 +24,6 @@ const db = {
     const snap = await ref.get();
 
     return snap.exists ? snap.data() : null;
-  },
-
-  async getGlobalConfig(): Promise<GlobalConfig> {
-    const snap: DocumentSnapshot = await admin.firestore().doc(`${CONFIG}/${GLOBAL}`).get();
-    return parser.parseGlobalConfig(snap);
   },
 
   async getUserByName(tx: Transaction, normalizedName: User['normalized_name']): Promise<User | null> {
@@ -73,11 +67,6 @@ const db = {
   },
 
   // Update
-  updateGlobalConfig(tx: Transaction, data: Partial<GlobalConfig>): void {
-    const ref: DocumentReference = admin.firestore().doc(`${GLOBAL}/${CONFIG}`);
-    tx.update(ref, data);
-  },
-
   updateUser(tx: Transaction, userId: User['uid'], data: Partial<User>): void {
     const ref: DocumentReference = admin.firestore().doc(`${USERS}/${userId}`);
     tx.update(ref, data);
@@ -105,11 +94,6 @@ const db = {
   async setDoc(path: string, data: any): Promise<void> {
     const ref = admin.firestore().doc(path);
     await ref.set(data);
-  },
-
-  setGlobalConfig(tx: Transaction, data: Partial<GlobalConfig>): void {
-    const ref: DocumentReference = admin.firestore().doc(`${GLOBAL}/${CONFIG}`);
-    tx.set(ref, data);
   },
 
   // Delete

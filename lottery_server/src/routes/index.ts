@@ -12,6 +12,7 @@ import getUserGrids from './user/getGrids';
 import refillAccount from './user/refillAccount';
 import getGames from './game/getAll';
 import newGame from './game/newGame';
+import claimGrid from './game/claimGrid';
 
 // Routes path
 import { authRoute, gameRoute, userRoute } from '../helpers/consts';
@@ -42,5 +43,6 @@ router.use(userRoute, refillAccount);
  */
 router.use(gameRoute, getGames);
 router.use(gameRoute, newGame);
+router.use(gameRoute, claimGrid);
 
 export default router;

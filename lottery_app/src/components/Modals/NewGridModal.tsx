@@ -76,7 +76,7 @@ const NewGridModal = ({ isOpen, onClose, clickAction, game }: NewGridModalProps)
 					<ModalHeader>
 						<HStack justify="center" w="full">
 							<Text textAlign="center" fontSize="32px">
-								€{game.total_cash * 0.9}
+								€{game.total_cash}
 							</Text>
 							<CloseModalButton clickAction={onClose} />
 						</HStack>

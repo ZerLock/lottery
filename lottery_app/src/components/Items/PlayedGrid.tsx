@@ -12,18 +12,30 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 	const user = useUserContext();
 
 	const hisFinished = (): boolean => {
-		const tmp = _.filter(user.user.games, { id: grid.game.id });
-		if (tmp.length > 0) {
-			return false;
+		if (grid.claimed_cash) {
+			return true;
 		}
-		return true;
+		return false;
+	};
+
+	const displayClaimButton = (): boolean => {
+		const tmp = _.filter(user.user.games, { id: grid.game.id });
+		const old = _.filter(user.user.account?.old_games, { id: grid.game.id });
+		if (tmp.length === 0 && old.length === 0) {
+			return true;
+		}
+		return false;
 	};
 
 	const getBrightness = (): string => {
 		if (hisFinished()) {
-			return '80%';
+			return '50%';
 		}
 		return '0%';
+	};
+
+	const claimPrice = async (): Promise<void> => {
+		await user.user.claimGrid(grid.id);
 	};
 
 	return (
@@ -34,7 +46,7 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 						<VStack spacing="2px" w="full" px="10px" color="white" align="start">
 							<HStack w="full" justify="space-between">
 								<Text color="#F7783D" fontWeight="bold" fontStyle="italic" fontSize="24px">
-									{hisFinished() ? 'You won/lose!' : 'Waiting...'}
+									{hisFinished() ? `${grid.title}!` : 'Waiting...'}
 								</Text>
 								<Badge colorScheme="cyan" p="3px" px="15px" alignContent="center">
 									<Text>November 14</Text>
@@ -50,9 +62,9 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 									</Text>
 								</Box>
 								<Box>
-									{!hisFinished() ? (
+									{displayClaimButton() && !hisFinished() ? (
 										<>
-											<ActionButton clickAction={() => {}} content="🔥 Claim!" p="10px" px="20px" bg="#F7783D" />
+											<ActionButton clickAction={claimPrice} content="🔥 Claim!" p="10px" px="20px" bg="#F7783D" />
 										</>
 									) : (
 										<></>

@@ -31,6 +31,11 @@ router.post(
                 db.getGame(tx, gameId),
             ]);
 
+            // Check if the game is available yet (played_at > Date.now())
+            if (game.played_at.toMillis() <= Date.now()) {
+                throw new InternalError(`Cannot play on this games. The registrations are closed`);
+            }
+
             // Check user cash
             const newCash = user.cash - game.play_cash;
             if (newCash < 0) {
@@ -62,7 +67,8 @@ router.post(
             const newGrid: Grid = {
                 id: (user.number_of_grids++).toString(),
                 game: partialGame,
-                claimed_cash: undefined,
+                claimed_cash: null,
+                title: '',
                 numbers: params.numbers,
             };
 
