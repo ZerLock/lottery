@@ -24,15 +24,9 @@ class Auth {
 
 	private provider: GoogleAuthProvider;
 
-	private connectedUser: UserType | undefined;
-
-	private connectedToken: string | undefined;
-
 	private api: AxiosInstance;
 
 	constructor() {
-		this.connectedToken = undefined;
-		this.connectedUser = undefined;
 		this.auth = getAuth(appFirebase);
 		this.provider = new GoogleAuthProvider();
 		setPersistence(this.auth, browserLocalPersistence);
@@ -42,16 +36,16 @@ class Auth {
 	}
 
 	public logout = async (): Promise<void> => {
-		// localStorage.clear();
-		// this.connectedToken = undefined;
-		// this.connectedUser = undefined;
+		localStorage.clear();
 	};
 
-	private handleSuccess = async (response: UserCredential) => {
+	private handleSuccess = async (response: UserCredential): Promise<[UserType | undefined, string]> => {
+		let tmpToken = '';
+
 		if (response.user) {
 			const token = await response.user.getIdToken();
 			localStorage.setItem('idToken', token);
-			this.connectedToken = token;
+			tmpToken = token;
 
 			// Get user from backend
 			const res = await this.api.post('/auth', {
@@ -61,14 +55,15 @@ class Auth {
 					avatar: response.user.photoURL,
 				},
 			});
-			this.connectedUser = res.data.data;
+			return [res.data.data, tmpToken];
 		}
+		return [undefined, tmpToken];
 	};
 
 	public loginWithGoogle = async (): Promise<AuthReturnType> => {
-		await signInWithPopup(this.auth, this.provider).then(this.handleSuccess);
+		const [tmpUser, tmpToken] = await signInWithPopup(this.auth, this.provider).then(await this.handleSuccess);
 
-		const user = new User(this.connectedUser?.uid, this.connectedToken);
+		const user = new User(tmpUser?.uid, tmpToken);
 		return { user: user, idToken: user.idToken, message: 'Successful login' };
 	};
 
