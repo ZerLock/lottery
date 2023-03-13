@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Text, Image, VStack, Box, Flex, useToast } from '@chakra-ui/react';
+import { AddToHomeScreen } from 'react-pwa-add-to-homescreen';
 
 import LoginButton from 'components/Buttons/LoginButton';
 
@@ -57,6 +58,7 @@ const LoginView = (): JSX.Element => {
 	return (
 		<>
 			<VStack bg="rgba(2, 110, 71, 0.7)" h="100vh" pt="30%">
+				<AddToHomeScreen />
 				<Flex h="full" direction="column" justifyContent="space-between" mb="10%">
 					<VStack>
 						<Text color="white" fontSize="48px" fontWeight="bold">

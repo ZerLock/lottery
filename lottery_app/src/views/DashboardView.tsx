@@ -5,13 +5,8 @@ import DashboardBar from 'components/Navbar/DashboardBar';
 import DashboardBottom from 'components/Bottom/DashboardBottom';
 import DisplayViews from 'components/Items/DisplayViews';
 
-import { useUserContext } from 'contexts/user';
-
 const DashboardView = (): JSX.Element => {
-	const user = useUserContext();
 	const [selectedTab, setSelectedTab] = useState<number>(0);
-
-	user.user.setDeviceInfos(window.navigator.userAgent);
 
 	return (
 		<>

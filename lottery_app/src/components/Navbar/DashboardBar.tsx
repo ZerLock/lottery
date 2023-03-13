@@ -10,7 +10,7 @@ const DashboardBar = (): JSX.Element => {
 	return (
 		<>
 			<Flex
-				mt={user.user.isOnApple() ? '50px' : '25px'}
+				mt="35px"
 				pl="40px"
 				pr="10px"
 				w="100%"

@@ -72,7 +72,7 @@ const NewGridModal = ({ isOpen, onClose, clickAction, game }: NewGridModalProps)
 		<>
 			<Modal size="full" isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent pt={user.user.isOnApple() ? '50px' : '25px'} bgColor="#F4E2C2">
+				<ModalContent pt="35px" bgColor="#F4E2C2">
 					<ModalHeader>
 						<HStack justify="center" w="full">
 							<Text textAlign="center" fontSize="32px">

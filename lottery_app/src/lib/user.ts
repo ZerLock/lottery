@@ -9,8 +9,6 @@ class User {
 
 	public idToken: string | undefined;
 
-	public deviceInfos: string | undefined;
-
 	public games: Array<GameType> = [];
 
 	public api: AxiosInstance;
@@ -42,15 +40,6 @@ class User {
 			cash: 0,
 		} as UserType;
 	};
-
-	public setDeviceInfos(deviceInfos: string) {
-		this.deviceInfos = deviceInfos;
-	}
-
-	public isOnApple(): boolean {
-		if (this.deviceInfos && this.deviceInfos.includes('iPhone')) return true;
-		return false;
-	}
 
 	public async getGames(): Promise<Array<GameType>> {
 		const res = await this.api.get('/game/getAll');
