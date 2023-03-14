@@ -16,10 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: ESLint check
-        working-directory: ./lottery_server
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-        run: yarn install
-        run: yarn lint
+      # - run: cd ./lottery_server && yarn install
+      - run: cd ./lottery_server && yarn lint
         # run: yarn test
