@@ -8,6 +8,10 @@
 # testing
 /coverage
 
+# Env
+.env
+.env.development
+
 # Config
 firebase-config.json
 
