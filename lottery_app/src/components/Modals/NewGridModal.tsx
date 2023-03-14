@@ -15,8 +15,6 @@ import { GiMoneyStack } from 'react-icons/gi';
 import _ from 'lodash';
 import { Game as GameType } from 'types/types';
 
-import { useUserContext } from 'contexts/user';
-
 import ActionButton from 'components/Buttons/ActionButton';
 import CloseModalButton from 'components/Buttons/CloseModalButton';
 import DateInfos from './DateInfos';
@@ -31,7 +29,6 @@ type NewGridModalProps = {
 };
 
 const NewGridModal = ({ isOpen, onClose, clickAction, game }: NewGridModalProps): JSX.Element => {
-	const user = useUserContext();
 	const [numbers, setNumbers] = useState<Array<number>>([]);
 	const toast = useToast();
 

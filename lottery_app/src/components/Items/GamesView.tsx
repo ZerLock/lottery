@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, VStack, Text, useDisclosure, useToast } from '@chakra-ui/react';
 import { FaUmbrellaBeach } from 'react-icons/fa';
 import { Game as GameType } from 'types/types';
@@ -15,19 +15,7 @@ const GamesView = (): JSX.Element => {
 	// Modal
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	const [games, setGames] = useState<Array<GameType>>([]);
 	const [selectedGame, setSelectedGame] = useState<GameType | undefined>(undefined);
-
-	useEffect(() => {
-		(async () => {
-			try {
-				const res = await user.user.getGames();
-				setGames(res);
-			} catch (e: any) {
-				console.error(e);
-			}
-		})();
-	}, []);
 
 	const fillNewGrid = (game: GameType): void => {
 		setSelectedGame(game);
@@ -58,9 +46,9 @@ const GamesView = (): JSX.Element => {
 	return (
 		<>
 			<VStack spacing="6px" pb="100px">
-				{games.length > 0 ? (
+				{user.user.games.length > 0 ? (
 					<>
-						{games.map((value, index) => (
+						{user.user.games.map((value, index) => (
 							<Box key={index}>
 								<Game clickAction={() => fillNewGrid(value)} game={value} />
 							</Box>

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { onSnapshot, doc, getFirestore } from 'firebase/firestore';
+import { onSnapshot, doc, query, collection, getFirestore } from 'firebase/firestore';
 import type { User as UserType, Game as GameType, Grid } from '../types/types';
 import { SERVER_URL } from 'config/constants';
 import firebase from './firebase';
@@ -19,6 +19,15 @@ class User {
 				this.account = docSnap.data() as UserType;
 			}
 		});
+		onSnapshot(query(collection(getFirestore(firebase), `games`)), async (queryx) => {
+			this.games = queryx.docs.map(
+				(docx) =>
+					({
+						id: docx.id,
+						...docx.data(),
+					} as GameType),
+			);
+		});
 		this.idToken = idToken;
 		this.api = axios.create({
 			baseURL: SERVER_URL,
@@ -26,7 +35,6 @@ class User {
 				Authorization: `Bearer ${idToken}`,
 			},
 		});
-		this.getGames();
 	}
 
 	public getAccount = (): UserType => {
@@ -40,12 +48,6 @@ class User {
 			cash: 0,
 		} as UserType;
 	};
-
-	public async getGames(): Promise<Array<GameType>> {
-		const res = await this.api.get('/game/getAll');
-		this.games = res.data.data;
-		return res.data.data as Array<GameType>; // Return
-	}
 
 	public async playNewGrid(numbers: Array<number>, gameId: GameType['id']): Promise<void> {
 		await this.api.post(`/game/new?gameId=${gameId}`, {

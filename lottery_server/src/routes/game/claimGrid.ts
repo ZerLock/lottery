@@ -26,7 +26,7 @@ router.post(
                 throw new NotFoundError(`Grid ${gridId} does not exists or is already claimed`);
             }
 
-            if (grid.played_at.toMillis() > Date.now()) {
+            if (grid.game.played_at.toMillis() > Date.now()) {
                 throw new InternalError(`Cannot claim price, game not finished`);
             }
 
