@@ -6,6 +6,7 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
+    "@fireworks-js/react": "^2.10.2",
     "@fontsource/open-sans": "^4.5.14",
     "@fontsource/raleway": "^4.5.12",
     "@testing-library/jest-dom": "^5.16.4",

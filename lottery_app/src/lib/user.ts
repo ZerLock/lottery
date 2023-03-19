@@ -66,7 +66,8 @@ class User {
 	}
 
 	public async claimGrid(gridId: string): Promise<void> {
-		await this.api.post(`/game/claim?gridId=${gridId}`);
+		const res = await this.api.post(`/game/claim?gridId=${gridId}`);
+		return res.data.data;
 	}
 }
 

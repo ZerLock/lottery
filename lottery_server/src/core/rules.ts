@@ -6,7 +6,7 @@ const rules = {
     return diacritics.remove(name.toLocaleLowerCase('fr')).trim();
   },
 
-  getPriceMultiplier(game: Array<number>, user: Array<number>): [number, string] {
+  getPrizeMultiplier(game: Array<number>, user: Array<number>): [number, string] {
     const diff = _.difference(game, user);
     switch (diff.length) {
       case 0:

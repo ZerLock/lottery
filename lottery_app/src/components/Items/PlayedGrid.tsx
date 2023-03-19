@@ -1,8 +1,10 @@
-import { VStack, HStack, Box, Text, Badge } from '@chakra-ui/react';
+import { useState } from 'react';
+import { VStack, HStack, Box, Text, Badge, useDisclosure } from '@chakra-ui/react';
 import _ from 'lodash';
 import { Grid as GridType } from 'types/types';
 import { useUserContext } from 'contexts/user';
 import ActionButton from 'components/Buttons/ActionButton';
+import ClaimModal from 'components/Modals/ClaimModal';
 
 type PlayedGridProps = {
 	grid: GridType;
@@ -10,6 +12,8 @@ type PlayedGridProps = {
 
 const PlayedGrid = ({ grid }: PlayedGridProps) => {
 	const user = useUserContext();
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [claimedPrize, setClaimedPrize] = useState<number>(0);
 
 	const hisFinished = (): boolean => {
 		if (grid.claimed_cash) {
@@ -34,12 +38,20 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 		return '0%';
 	};
 
-	const claimPrice = async (): Promise<void> => {
-		await user.user.claimGrid(grid.id);
+	const claimPrize = async (): Promise<void> => {
+		const res: any = await user.user.claimGrid(grid.id);
+		setClaimedPrize(res.prize);
+		setTimeout(onOpen, 500);
 	};
 
 	return (
 		<>
+			<ClaimModal
+				isOpen={isOpen}
+				onClose={onClose}
+				claimedPrize={claimedPrize}
+				playCash={grid.game.play_cash as number}
+			/>
 			<Box w="full" filter={`grayscale(${getBrightness()})`}>
 				<Box bg="rgba(2, 110, 71, 0.7)" p="10px" mx="10px" borderRadius="20px">
 					<VStack spacing="10px">
@@ -64,7 +76,7 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 								<Box>
 									{displayClaimButton() && !hisFinished() ? (
 										<>
-											<ActionButton clickAction={claimPrice} content="🔥 Claim!" p="10px" px="20px" bg="#F7783D" />
+											<ActionButton clickAction={claimPrize} content="🔥 Claim!" p="10px" px="20px" bg="#F7783D" />
 										</>
 									) : (
 										<></>

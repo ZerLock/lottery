@@ -10,7 +10,7 @@ export const newGameTask = async (): Promise<void> => {
 
     // create game
     const newGame: Partial<Game> = {
-        name: 'Loto France',
+        name: 'Other claim test',
         grid: [10, 20, 13, 8, 1],
         users: [],
         play_cash: 10,

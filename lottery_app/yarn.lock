@@ -2492,6 +2492,13 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.9.0.tgz#9340bce56560a8bdba1d25d6281d4bfc397450dc"
   integrity sha512-BpiZLBWdLFw+qFel9p3Zs1jD6QmH7Ii4aTDu6+vx8ShdidChZUXqDhYJly4ZjSgQh54miXbBgBrk0S+jTIh/Qg==
 
+"@fireworks-js/react@^2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@fireworks-js/react/-/react-2.10.2.tgz#c92fc67bc8b77fc80a733bf01b446fb9a79e8cec"
+  integrity sha512-VJ3Q9SkKIKJ7gCYW/ht8jUzWKELuP5VPi1Ix3Y6nM//cWicYbEQ9rBldESJy30E+VL7R7SteNg5cj7KhTlglhQ==
+  dependencies:
+    fireworks-js "2.10.2"
+
 "@fontsource/open-sans@^4.5.14":
   version "4.5.14"
   resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.5.14.tgz#b3e1665c0b3fdfc1f030ded2843749e3cf3a5900"
@@ -6111,6 +6118,11 @@ firebase@^9.17.2:
     "@firebase/storage" "0.11.2"
     "@firebase/storage-compat" "0.3.2"
     "@firebase/util" "1.9.3"
+
+fireworks-js@2.10.2:
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/fireworks-js/-/fireworks-js-2.10.2.tgz#2fec691bad641a2bf4e6356b3d7b462c623163a6"
+  integrity sha512-2qqKsRdXHB4s40/t10xYxmLUXF6gSQwbrWFJVvySnpiOrK/EQWC2jmnJ+964kO4vUgSmESjPxjdua+Y3haQbcw==
 
 flat-cache@^3.0.4:
   version "3.0.4"
