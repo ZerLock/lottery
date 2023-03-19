@@ -15,8 +15,8 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [claimedPrize, setClaimedPrize] = useState<number>(0);
 
-	const hisFinished = (): boolean => {
-		if (grid.claimed_cash) {
+	const isFinished = (): boolean => {
+		if (grid.claimed_cash !== null) {
 			return true;
 		}
 		return false;
@@ -32,7 +32,7 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 	};
 
 	const getBrightness = (): string => {
-		if (hisFinished()) {
+		if (isFinished()) {
 			return '50%';
 		}
 		return '0%';
@@ -58,7 +58,7 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 						<VStack spacing="2px" w="full" px="10px" color="white" align="start">
 							<HStack w="full" justify="space-between">
 								<Text color="#F7783D" fontWeight="bold" fontStyle="italic" fontSize="24px">
-									{hisFinished() ? `${grid.title}!` : 'Waiting...'}
+									{isFinished() ? `${grid.title}!` : 'Waiting...'}
 								</Text>
 								<Badge colorScheme="cyan" p="3px" px="15px" alignContent="center">
 									<Text>{grid.game.played_at?.toDate().toDateString()}</Text>
