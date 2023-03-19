@@ -69,11 +69,11 @@ yarn dev
 |`/user`|DELETE|YES|Delete user|
 |`/user`|PUT|YES|Update user|
 |`/user/getGames`|GET|YES|Get all games played by a user filtered by game creation date|
-|`/user/claim/:gridId`|POST|YES|Claim prize for an old grid|
 |||||
 |||||
 |`/game/getAll`|GET|YES|Get all available games|
 |`/game/new/:gameId`|POST|YES|Participate to a game|
+|`/game/claim/:gridId`|POST|YES|Claim prize for an old grid|
 
 ### Tasks
 `execGame` -> Execute game
