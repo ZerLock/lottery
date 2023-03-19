@@ -27,7 +27,7 @@ multipliers -> good numbers: 1 -> 5; 0.8 -> 4; 0.6 -> 3 ; 0.4 -> 2; 0.2 -> 1; 0 
 - [Firestore](https://firebase.google.com/docs/firestore/)
 
 ### Tasks queue
-*Soon...*
+I use cron job to create 1 new game every day at 9:00 AM and execute games every hour.
 
 ## Installation
 
@@ -56,7 +56,9 @@ yarn dev
 ```
 
 ### Tasks queue
-*Soon...*
+Cron jobs:
+ - src/tasks/newGame.ts: Every day at 9:00 AM
+ - src/tasks/execGame.ts: Every hour
 
 ## Backend routes
 
