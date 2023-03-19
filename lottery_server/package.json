@@ -8,7 +8,9 @@
     "build": "ttsc",
     "start": "node dist/src/index.js",
     "lint": "eslint src/**/*.ts",
-    "format": "eslint --fix src/**/*.ts"
+    "format": "eslint --fix src/**/*.ts",
+    "newGame": "ts-node src/tasks/newGame.ts 1",
+    "execGame": "ts-node src/tasks/execGame.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -34,6 +36,7 @@
     "firebase": "^9.17.2",
     "firebase-admin": "^11.5.0",
     "lodash": "^4.17.21",
+    "node-schedule": "^2.1.1",
     "reflect-metadata": "^0.1.13",
     "typescript-is": "^0.19.0",
     "winston": "^3.8.1"

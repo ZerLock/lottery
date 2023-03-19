@@ -1,10 +1,11 @@
 import admin from 'firebase-admin';
 import db, { initDatabase } from '../database';
+import logger from '../core/logger';
 
 export const execGameTask = async (): Promise<void> => {
-    console.log('Started executing game');
+    logger.info('Started executing game');
 
-    // Connect to db
+    // Connext to db
     initDatabase();
 
     await admin.firestore().runTransaction(async (tx) => {
@@ -12,13 +13,13 @@ export const execGameTask = async (): Promise<void> => {
         await games.map(async (game) => {
             if (game.played_at.toMillis() < Date.now()) {
                 await db.deleteGame(tx, game.id);
-                console.log(`Game ${game.id} deleted`);
+                logger.info(`Game ${game.id} deleted`);
             }
         });
     });
 
-    console.log('Game executed');
-}
+    logger.info('Game executed');
+};
 
 async function main() {
     await execGameTask();
