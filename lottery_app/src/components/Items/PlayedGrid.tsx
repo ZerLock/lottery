@@ -70,11 +70,11 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 										{grid.game.name}
 									</Text>
 									<Text fontWeight="bold" fontSize="">
-										€{grid.claimed_cash ? grid.claimed_cash : 0} / €{grid.game.total_cash}
+										€{grid.claimed_cash ? grid.claimed_cash : "NaN"} / €{grid.game.total_cash}
 									</Text>
 								</Box>
 								<Box>
-									{displayClaimButton() && !hisFinished() ? (
+									{displayClaimButton() && !isFinished() ? (
 										<>
 											<ActionButton clickAction={claimPrize} content="🔥 Claim!" p="10px" px="20px" bg="#F7783D" />
 										</>
