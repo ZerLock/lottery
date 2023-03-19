@@ -61,7 +61,7 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 									{hisFinished() ? `${grid.title}!` : 'Waiting...'}
 								</Text>
 								<Badge colorScheme="cyan" p="3px" px="15px" alignContent="center">
-									<Text>November 14</Text>
+									<Text>{grid.game.played_at?.toDate().toDateString()}</Text>
 								</Badge>
 							</HStack>
 							<HStack w="full" justify="space-between">

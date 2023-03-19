@@ -34,10 +34,12 @@ const Game = ({ clickAction, game }: GameProps): JSX.Element => (
 			</Flex>
 			<Flex w="100%" px="20px" wrap="wrap" justify="left" gap="7px">
 				<Badge colorScheme="cyan" p="3px" px="15px" alignItems="center">
-					<Text>November 14</Text>
+					<Text>{game.played_at.toDate().toDateString()}</Text>
 				</Badge>
 				<Badge colorScheme="cyan" p="3px" px="15px" alignItems="center">
-					<Text>3:00 PM</Text>
+					<Text>
+						{game.played_at.toDate().getHours().toString()}:{game.played_at.toDate().getMinutes().toString()}
+					</Text>
 				</Badge>
 			</Flex>
 		</VStack>
