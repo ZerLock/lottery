@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Box, VStack, Text } from '@chakra-ui/react';
 import { ImSad } from 'react-icons/im';
 import _ from 'lodash';
@@ -27,6 +28,8 @@ const ResultsView = (): JSX.Element => {
 				),
 			),
 		);
+
+	useEffect(() => {}, [user.user]);
 
 	return (
 		<>

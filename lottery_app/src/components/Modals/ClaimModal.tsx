@@ -7,16 +7,20 @@ import ActionButton from 'components/Buttons/ActionButton';
 type ClaimModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
+	gameName: string;
 	claimedPrize: number;
 	playCash: number;
 };
 
-const ClaimModal = ({ isOpen, onClose, claimedPrize, playCash }: ClaimModalProps): JSX.Element => (
+const ClaimModal = ({ isOpen, onClose, gameName, claimedPrize, playCash }: ClaimModalProps): JSX.Element => (
 	<>
 		<Modal size="xs" isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent bgColor="#F4E2C2">
 				<ModalBody w="full" justifyContent="center" pt="20px">
+					<Text fontSize="24px" opacity="70%" mb="15px">
+						{gameName}
+					</Text>
 					{claimedPrize > 0 ? (
 						<>
 							<Box mx="15px" border="4px" w="250px" h="250px" borderColor="white">

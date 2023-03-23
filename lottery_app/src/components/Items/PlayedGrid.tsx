@@ -49,6 +49,7 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 			<ClaimModal
 				isOpen={isOpen}
 				onClose={onClose}
+				gameName={grid.game.name as string}
 				claimedPrize={claimedPrize}
 				playCash={grid.game.play_cash as number}
 			/>
@@ -70,7 +71,7 @@ const PlayedGrid = ({ grid }: PlayedGridProps) => {
 										{grid.game.name}
 									</Text>
 									<Text fontWeight="bold" fontSize="">
-										€{grid.claimed_cash ? grid.claimed_cash : "NaN"} / €{grid.game.total_cash}
+										€{grid.claimed_cash ? grid.claimed_cash : 'NaN'} / €{grid.game.total_cash}
 									</Text>
 								</Box>
 								<Box>

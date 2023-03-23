@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Box, VStack, Text, useDisclosure, useToast } from '@chakra-ui/react';
 import { FaUmbrellaBeach } from 'react-icons/fa';
 import { Game as GameType } from 'types/types';
@@ -16,6 +16,10 @@ const GamesView = (): JSX.Element => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const [selectedGame, setSelectedGame] = useState<GameType | undefined>(undefined);
+
+	// Force re-render of component
+	const [, updateState] = useState<any>();
+	const forceUpdate = useCallback(() => updateState({}), []);
 
 	const fillNewGrid = (game: GameType): void => {
 		setSelectedGame(game);
@@ -42,6 +46,10 @@ const GamesView = (): JSX.Element => {
 		}
 		setSelectedGame(undefined);
 	};
+
+	useEffect(() => {
+		setTimeout(forceUpdate, 500);
+	});
 
 	return (
 		<>
