@@ -14,7 +14,6 @@ router.post(
     '/',
     asyncHandler(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         if (!types.is<LoginParams>(req.body)) {
-            console.log('body -->', req);
             throw new BadRequestError();
         }
         const params = types.assertType<LoginParams>(req.body);
